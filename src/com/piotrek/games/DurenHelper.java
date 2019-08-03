@@ -3,10 +3,10 @@ package com.piotrek.games;
 import java.util.List;
 import java.util.Queue;
 
-public class DurenHelper {
+class DurenHelper {
 
-    public final String ANSI_RESET = "\u001B[0m";
-    public final String ANSI_YELLOW = "\u001b[33m";
+    final String ANSI_RESET = "\u001B[0m";
+    private final String ANSI_YELLOW = "\u001b[33m";
 
     void drawCard(Player p, Queue<Card> q) {
         if (!(q.size() == 0)) {
@@ -19,31 +19,25 @@ public class DurenHelper {
 
     boolean czyPobije(Card card, Card card1, Deck talia) {
         //sprawdzam czy karta bijaca jest kozyrem
-        if (card1.getKolor() == talia.getKozyr().getKolor()) {
+        if (card1.getKolor().equals(talia.getKozyr().getKolor())) {
             //sprawdzam czy karta bita jest kozyrem
-            if (card.getKolor() == talia.getKozyr().getKolor()) {
+            if (card.getKolor().equals(talia.getKozyr().getKolor())) {
                 //sprawdzam wiekszy kozyr
-                if ((card1.compareTo(card)) == 1)
-                    return true;
-                else
-                    return false;
+                return (card1.compareTo(card)) > 0;
 
             } else {
                 //kozyr bije zwykłą kartę
                 return true;
             }
         } else {
-            if (card.getKolor() == talia.getKozyr().getKolor()) {
+            if (card.getKolor().equals(talia.getKozyr().getKolor())) {
                 //nie możesz bić kozyra zwkłą kartą
                 return false;
             } else {
                 //porównuje kolory zwykłych kart
-                if (card1.getKolor() == card.getKolor()) {
+                if (card1.getKolor().equals(card.getKolor())) {
                     //porównuje ktora karta jest mocniejsza
-                    if ((card1.compareTo(card)) == 1)
-                        return true;
-                    else
-                        return false;
+                    return (card1.compareTo(card)) > 0;
 
                 } else {
                     //karty zwykłę można bić tylko takim samym kolorem
@@ -77,9 +71,9 @@ public class DurenHelper {
         }
     }
 
-    void drawAllHands(Player a,Player... p) {
+    void drawAllHands(Player a, Player... p) {
         for (Player pe : p)
-            printPlayerHand(pe,a);
+            printPlayerHand(pe, a);
     }
 
     private void printDeck(Deck talia) {
@@ -95,13 +89,13 @@ public class DurenHelper {
         System.out.println();
     }
 
-    private void printPlayerHand(Player p,Player current) {
+    private void printPlayerHand(Player p, Player current) {
         System.out.println("REKA GRACZA " + p.getName());
 
         for (Card karta : p.getReka()) {
-            if(current.getName()==p.getName()){
+            if (current.getName().equals(p.getName())) {
                 System.out.print((p.getReka().indexOf(karta) + 1) + karta.getBackgroundColor() + karta.getFiguraColor() + karta.getFigura() + karta.getKolor() + ANSI_RESET + " ");
-            }else{
+            } else {
                 System.out.print((p.getReka().indexOf(karta) + 1) + karta.getBackgroundColor() + ANSI_YELLOW + "☻☺" + ANSI_RESET + " ");
             }
         }
@@ -120,4 +114,24 @@ public class DurenHelper {
         }
         System.out.println();
     }
+
+    boolean czyMoznaDolozyc(Player aktualnyGracz, List<Card> atakujaceKarty, List<Card> broniaceKarty, int numerKarty) {
+        if (atakujaceKarty.size() != 0) {
+            for (Card karta : atakujaceKarty) {
+                if (aktualnyGracz.getReka().get(numerKarty - 1).getKolor().equals(karta.getKolor()) || aktualnyGracz.getReka().get(numerKarty - 1).getFigura().equals(karta.getFigura())) {
+                    return true;
+                }
+                for (Card karta1 : broniaceKarty) {
+                    if (aktualnyGracz.getReka().get(numerKarty - 1).getKolor().equals(karta1.getKolor()) || aktualnyGracz.getReka().get(numerKarty - 1).getFigura().equals(karta1.getFigura())) {
+                        return true;
+                    }
+                }
+            }
+        } else {
+            return true;
+        }
+        return false;
+    }
+
+
 }

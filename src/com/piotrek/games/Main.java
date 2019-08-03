@@ -51,7 +51,6 @@ public class Main {
             String akcja = scanner.nextLine();
 
 
-
             switch (akcja) {
                 case "d":
                     if (aktualnyGracz == atakujacyGracz) {
@@ -59,8 +58,15 @@ public class Main {
                             System.out.println("Podaj numer karty do dołożenia");
                             int numerKarty = scanner.nextInt();
                             if (numerKarty <= aktualnyGracz.getReka().size()) {
-                                atakujaceKarty.add(aktualnyGracz.getReka().remove(numerKarty-1));
-                                aktualnyGracz = broniacyGracz;
+
+                                if (helper.czyMoznaDolozyc(aktualnyGracz, atakujaceKarty, broniaceKarty, numerKarty)) {
+                                    atakujaceKarty.add(aktualnyGracz.getReka().remove(numerKarty - 1));
+                                    aktualnyGracz = broniacyGracz;
+                                } else {
+                                    helper.clearScreen();
+                                    System.out.println("NIE MOŻNA DOŁOŻYĆ TEJ KARTY!!");
+                                }
+
 
                             } else {
                                 helper.clearScreen();
@@ -169,4 +175,6 @@ public class Main {
         }
 
     }
+
+
 }
