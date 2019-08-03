@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="duren:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/duren_jar</output-path>
+    <root id="archive" name="duren.jar">
+      <element id="module-output" name="duren" />
+    </root>
+  </artifact>
+</component>
